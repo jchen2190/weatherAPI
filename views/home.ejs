@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather API</title>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Weather API</h1>
-    <h2>City: </h2>
-    <h2>Time: <%= time %></h2>
-    <h2>Temperature: <%= temp %></h2>
+    <div class="container">
+        <h1>Weather App</h1>
+        <form autocomplete="off" action="/search-city" method="GET">
+            <input id="userInput" type="text" name="myLocation" placeholder="location">
+        </form>
+        <h2>City: </h2>
+        <h2>Time: <%= time %></h2>
+        <h2>Temperature: <%= temp %></h2>
+    </div>
+    <div>
+        <!-- <%= hours %> -->
+    </div>
 </body>
 </html>
