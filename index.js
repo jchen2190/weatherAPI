@@ -16,8 +16,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(logger("dev"));
 
-const indexRouter = require("./routes/indexRouter");
-app.use("/", indexRouter);
+const weatherRouter = require("./routes/indexRouter");
+app.use("/", weatherRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {
