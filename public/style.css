@@ -1,9 +1,12 @@
 body {
     font-family: sans-serif;
-    max-width: 300px;
+    max-width: 280px;
     display: flex;
     justify-content: center;
     margin: auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 .container {
     display:  flex;
