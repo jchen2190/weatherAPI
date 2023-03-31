@@ -9,13 +9,13 @@
 </head>
 <body>
     <div class="container">
+        <p><%= time %></p>
         <h1>Weather App</h1>
         <form autocomplete="off" action="/search-city" method="GET">
             <input id="userInput" type="text" name="myLocation" placeholder="location">
         </form>
         <h2>City: </h2>
-        <p>Time: <%= time %></p>
-        <p>Temperature: <%= temp %></p>
+        <h3>Temperature: <%= temp + tempSymbol %></h3>
     </div>
 </body>
 </html>

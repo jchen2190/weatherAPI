@@ -11,7 +11,7 @@ body {
     align-items: left;
 }
 input {
-    font-size: 20px;
-    padding: 10px;
-    border-radius: 5px;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 8px;
 }
