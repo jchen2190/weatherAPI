@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     margin: auto;
-    padding: 20px;
+    padding: 20px 0;
     border: 1px solid black;
     border-radius: 10px;
 }
@@ -17,4 +17,11 @@ input {
     font-size: 18px;
     padding: 5px;
     border-radius: 8px;
+}
+.container-temp {
+    display: flex;
+    justify-content: space-between;
+}
+img {
+    width: 30px;
 }

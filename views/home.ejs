@@ -14,7 +14,19 @@
         <form autocomplete="off" action="/search-city" method="GET">
             <input id="userInput" type="text" name="myLocation" placeholder="location">
         </form>
-        <h2><%= temp + tempSymbol %> <%= cloudCover %></h2>
+        <div class="container-temp">
+            <h2>
+                <%= temp + tempSymbol %>
+            </h2>
+            <% if ( cloudCover < 20) { %>
+                <h2><img src="./images/sun.png" alt="sunny icon">Sunny</h2>
+            <% } else if ( cloudCover < 60) { %>
+                <h2>Partly Cloudy</h2>
+            <% } else { %>
+                <h2>Cloudy</h2>
+            <% } %>
+        </div>
+
         <span>Precipitation %</span>
         <span>Wind</span>
         <span>Humidity</span>
