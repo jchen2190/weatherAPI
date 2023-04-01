@@ -21,13 +21,17 @@ async function getWeather(req, res) {
         //     longitude = city.data.longitude + ""
         // }
 
-        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
+        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time
         let currentTemp = weatherApp.data.hourly.temperature_2m[0];
         let tempSymbol = weatherApp.data.hourly_units.apparent_temperature;
         let cloudCover = weatherApp.data.hourly.cloudcover[0];
         let highTemp = weatherApp.data.daily.temperature_2m_max[0];
         let lowTemp = weatherApp.data.daily.temperature_2m_min[0];
+
+        let windSpeed = weatherApp.data.hourly.windspeed_10m[0] + " mph";
+        let humidity = weatherApp.data.hourly.relativehumidity_2m[0] + "%";
+        let dewPoint = weatherApp.data.hourly.dewpoint_2m[0] + "°";
 
         let visibility = Math.floor(weatherApp.data.hourly.visibility[0] / 5280);
         if (visibility > 10) { visibility = 10 };
@@ -54,6 +58,9 @@ async function getWeather(req, res) {
             cloudCover: cloudCover,
             highTemp: highTemp,
             lowTemp: lowTemp,
+            windSpeed: windSpeed,
+            humidity: humidity,
+            dewPoint: dewPoint,
             visibility: visibility,
             sunrise: sunrise,
             sunset: sunset,
