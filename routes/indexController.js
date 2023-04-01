@@ -26,19 +26,26 @@ async function getWeather(req, res) {
         //     longitude = city.data.longitude + ""
         // }
 
-        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility&daily=temperature_2m_max,temperature_2m_min,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
+        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time
         let currentTemp = weatherApp.data.hourly.temperature_2m[0];
         let tempSymbol = weatherApp.data.hourly_units.apparent_temperature;
-        let cloudCover = weatherApp.data.hourly.cloudcover[0]; 
-        console.log(cloudCover);
+        let cloudCover = weatherApp.data.hourly.cloudcover[0];
+        let sunrise = new Date(weatherApp.data.daily.sunrise[0] * 1000);
+        let sunset = new Date(weatherApp.data.daily.sunset[0] * 1000);
+        let highTemp = weatherApp.data.daily.temperature_2m_max[0];
+        let lowTemp = weatherApp.data.daily.temperature_2m_min[0];
 
         res.render("home", {
             time: currentTime,
             temp: currentTemp,
             hours: weatherForecastHr,
             tempSymbol: tempSymbol,
-            cloudCover: cloudCover
+            cloudCover: cloudCover,
+            sunrise: sunrise,
+            sunset: sunset,
+            highTemp: highTemp,
+            lowTemp: lowTemp,
         })
     } catch (error) {
         let errorObj = {

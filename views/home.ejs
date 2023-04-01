@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>WeatherAPI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <span><%= time %></span>
-        <h1>Weather App</h1>
+        <h1>WeatherAPI</h1>
         <form autocomplete="off" action="/search-city" method="GET">
             <input id="userInput" type="text" name="myLocation" placeholder="location">
         </form>
@@ -21,18 +21,20 @@
             <% if ( cloudCover < 20) { %>
                 <h2><img src="./images/sun.png" alt="sunny icon">Sunny</h2>
             <% } else if ( cloudCover < 60) { %>
-                <h2>Partly Cloudy</h2>
+                <h2><img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy</h2>
             <% } else { %>
-                <h2>Cloudy</h2>
+                <h2><img src="./images/cloud.png" alt="cloud icon">Cloudy</h2>
             <% } %>
         </div>
-
+        <span><%= highTemp %>° / <%= lowTemp %>°</span>
+        <br>
         <span>Precipitation %</span>
         <span>Wind</span>
         <span>Humidity</span>
         <span>Dew Point</span>
         <span>Pressure</span>
         <span>Visibility</span>
+        <span><%= sunrise %> / <%= sunset %></span>
         <!-- <span></span> -->
     </div>
 </body>
