@@ -28,14 +28,38 @@
         </div>
         <span><%= highTemp %>° / <%= lowTemp %>°</span>
         <br>
-        <span>Precipitation %</span>
-        <span>Wind</span>
-        <span>Humidity</span>
-        <span>Dew Point</span>
-        <span>Pressure</span>
-        <span>Visibility</span>
-        <span><%= sunrise %> / <%= sunset %></span>
-        <!-- <span></span> -->
+        <div class="weather-details">
+            <span>Precipitation %</span>
+        </div>
+        <div class="weather-details">
+            <span>Wind</span>
+            
+        </div>
+        <div class="weather-details">
+            <span>Humidity</span>
+
+        </div>
+        <div class="weather-details">
+            <span>Dew Point</span>
+
+        </div>
+        <div class="weather-details">
+            <span>Pressure</span>
+
+        </div>
+        <div class="weather-details">
+            <span>Visibility</span>
+            <span><%= visibility %></span>
+        </div>
+        <div class="weather-details">
+            <span>Sunrise:</span>
+            <span><%= sunrise %></span>
+        </div>
+        <div class="weather-details">
+            <span>Sunset:</span>
+            <span><%= sunset %></span>
+        </div>
     </div>
+</div>
 </body>
 </html>

@@ -8,13 +8,8 @@ async function getWeather(req, res) {
     var hr = date.getHours();
     var min = date.getMinutes();
     var amOrPm = "";
-    if (hr < 12) {
-        amOrPm = "am"
-    } else {
-        amOrPm = "pm"
-    }
+    hr < 12 ? amOrPm = "am" : amOrPm = "pm";
     if (hr > 12) { hr -= 12 }
-    // if (hr < 10) { hr = "0" + hr }
     if (min < 10) { min = "0" + min }
     var currentTime = `${hr}:${min} ${amOrPm}`;
 
@@ -31,10 +26,25 @@ async function getWeather(req, res) {
         let currentTemp = weatherApp.data.hourly.temperature_2m[0];
         let tempSymbol = weatherApp.data.hourly_units.apparent_temperature;
         let cloudCover = weatherApp.data.hourly.cloudcover[0];
-        let sunrise = new Date(weatherApp.data.daily.sunrise[0] * 1000);
-        let sunset = new Date(weatherApp.data.daily.sunset[0] * 1000);
         let highTemp = weatherApp.data.daily.temperature_2m_max[0];
         let lowTemp = weatherApp.data.daily.temperature_2m_min[0];
+
+        let visibility = Math.floor(weatherApp.data.hourly.visibility[0] / 5280);
+        if (visibility > 10) { visibility = 10 };
+        visibility += " mi";
+
+        let sunriseDate = new Date(weatherApp.data.daily.sunrise[0] * 1000);
+        let sunriseHr = sunriseDate.getHours();
+        let sunriseMin = sunriseDate.getMinutes();
+        let sunrise = sunriseHr + ":" + sunriseMin;
+        sunriseHr < 12 ? sunrise += " am" : sunrise += " pm";
+        let sunsetDate = new Date(weatherApp.data.daily.sunset[0] * 1000);
+        let sunsetHr = sunsetDate.getHours();
+        let sunsetMin = sunsetDate.getMinutes();
+        let sunsetAmOrPm;
+        sunsetHr < 12 ? sunsetAmOrPm = " am" : sunsetAmOrPm = " pm";
+        if (sunsetHr > 13) { sunsetHr -= 12 }
+        let sunset = sunsetHr + ":" + sunsetMin + sunsetAmOrPm;
 
         res.render("home", {
             time: currentTime,
@@ -42,10 +52,11 @@ async function getWeather(req, res) {
             hours: weatherForecastHr,
             tempSymbol: tempSymbol,
             cloudCover: cloudCover,
-            sunrise: sunrise,
-            sunset: sunset,
             highTemp: highTemp,
             lowTemp: lowTemp,
+            visibility: visibility,
+            sunrise: sunrise,
+            sunset: sunset,
         })
     } catch (error) {
         let errorObj = {
