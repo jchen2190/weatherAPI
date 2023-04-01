@@ -2,6 +2,8 @@ const axios = require("axios");
 
 let latitude = "40.71";
 let longitude = "-74.01";
+let city = "";
+let query = "";
 
 async function getWeather(req, res) {
     var date = new Date();
@@ -13,17 +15,32 @@ async function getWeather(req, res) {
     if (min < 10) { min = "0" + min }
     var currentTime = `${hr}:${min} ${amOrPm}`;
 
-    let query = req.query.search;
+    if (req.query["search-city"] != "") {
+        query = req.query["search-city"];
+        console.log("get me " + query);
+    }
     try {
-        // if (query != "") {
-        //     let city = await axios.get(`https://api.api-ninjas.com/v1/city?name=${query}`)
-        //     latitude = city.data.latitude + ""
-        //     longitude = city.data.longitude + ""
-        // }
+        city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
+        if (query != "") {
+            latitude = city.data.results[0].latitude;
+            longitude = city.data.results[0].longitude;
+        }
+        console.log("get me this query! " + query);
+        console.log("latitude = " + latitude);
+        console.log("longitude = " + longitude);
+    } catch (error) {
+        let errorObj = {
+            message: "failure to find city",
+            payload: error
+        }
+        console.log(errorObj);
+        res.json(errorObj);
+    }
 
+    try {
         let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time
-        let currentTemp = weatherApp.data.hourly.temperature_2m[0];
+        let currentTemp = Math.round(weatherApp.data.hourly.temperature_2m[0]);
         let tempSymbol = weatherApp.data.hourly_units.apparent_temperature;
         let cloudCover = weatherApp.data.hourly.cloudcover[0];
         let highTemp = weatherApp.data.daily.temperature_2m_max[0];

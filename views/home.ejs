@@ -11,20 +11,22 @@
     <div class="container">
         <span><%= time %></span>
         <h1>WeatherAPI</h1>
-        <form autocomplete="off" action="/search-city" method="GET">
-            <input id="userInput" type="text" name="myLocation" placeholder="location">
+        <form autocomplete="off" action="/" method="GET">
+            <input id="userInput" type="text" name="search-city" placeholder="location">
         </form>
         <div class="container-temp">
             <h2>
                 <%= temp + tempSymbol %>
             </h2>
+            <h2>
             <% if ( cloudCover < 20) { %>
-                <h2><img src="./images/sun.png" alt="sunny icon">Sunny</h2>
+                <img src="./images/sun.png" alt="sunny icon">Sunny
             <% } else if ( cloudCover < 60) { %>
-                <h2><img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy</h2>
+                <img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy
             <% } else { %>
-                <h2><img src="./images/cloud.png" alt="cloud icon">Cloudy</h2>
+                <img src="./images/cloud.png" alt="cloud icon">Cloudy
             <% } %>
+            </h2>
         </div>
         <span><%= highTemp %>° / <%= lowTemp %>°</span>
         <br>
