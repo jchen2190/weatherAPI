@@ -21,5 +21,5 @@ app.use("/", weatherRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server is litening on port ${PORT}...`);
+    console.log(`Server is listening on port ${PORT}...`);
 })

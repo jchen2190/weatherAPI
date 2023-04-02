@@ -3,7 +3,8 @@ const axios = require("axios");
 let latitude = "40.71";
 let longitude = "-74.01";
 let city = "";
-let query = "";
+let query = "New York";
+let cityName = "New York";
 
 async function getWeather(req, res) {
     var date = new Date();
@@ -14,20 +15,18 @@ async function getWeather(req, res) {
     if (hr > 12) { hr -= 12 }
     if (min < 10) { min = "0" + min }
     var currentTime = `${hr}:${min} ${amOrPm}`;
-
-    if (req.query["search-city"] != "") {
+    
+    if (req.query["search-city"] != "" && query != undefined) {
         query = req.query["search-city"];
-        console.log("get me " + query);
     }
     try {
         city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
         if (query != "") {
+            console.log(city.data.indexOf("results"));
             latitude = city.data.results[0].latitude;
             longitude = city.data.results[0].longitude;
+            cityName = city.data.results[0].name;
         }
-        console.log("get me this query! " + query);
-        console.log("latitude = " + latitude);
-        console.log("longitude = " + longitude);
     } catch (error) {
         let errorObj = {
             message: "failure to find city",
@@ -73,6 +72,7 @@ async function getWeather(req, res) {
             hours: weatherForecastHr,
             tempSymbol: tempSymbol,
             cloudCover: cloudCover,
+            cityName: cityName,
             highTemp: highTemp,
             lowTemp: lowTemp,
             windSpeed: windSpeed,
