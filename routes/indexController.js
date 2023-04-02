@@ -11,9 +11,10 @@ async function getWeather(req, res) {
     var date = new Date();
     var hr = date.getHours();
     var min = date.getMinutes();
-    var amOrPm = "";
     if (min < 10) { min = "0" + min }
-    var time = `${hr}:${min}`;
+    var amOrPm = "";
+    var time;
+    if (hr < 10) { time = "0" + hr + ":" + min} else { time = hr + ":" + min}
     hr < 12 ? amOrPm = "am" : amOrPm = "pm";
     if (hr > 12) { hr -= 12 }
     var currentTime = `${hr}:${min}`;
@@ -49,19 +50,30 @@ async function getWeather(req, res) {
         let sunriseDate = new Date(weatherApp.data.daily.sunrise[0] * 1000);
         let sunriseHr = sunriseDate.getHours();
         let sunriseMin = sunriseDate.getMinutes();
-        let sunrise = sunriseHr + ":" + sunriseMin;
         let sunriseAmOrPm;
         sunriseHr < 12 ? sunriseAmOrPm = " am" : sunriseAmOrPm = " pm";
-        if (sunriseHr > 12) { sunriseHr -= 12 };
         if (sunriseMin < 10) { sunriseMin = "0" + sunriseMin };
+        let sunrise;
+        if (sunriseHr < 10) {
+            sunrise = "0" + sunriseHr + ":" + sunriseMin;
+        } else {
+            sunrise = sunriseHr + ":" + sunriseMin
+        } 
+        if (sunriseHr > 12) { sunriseHr -= 12 };
+
         let sunsetDate = new Date(weatherApp.data.daily.sunset[0] * 1000);
         let sunsetHr = sunsetDate.getHours();
         let sunsetMin = sunsetDate.getMinutes();
-        let sunset = sunsetHr + ":" + sunsetMin;
         let sunsetAmOrPm;
         sunsetHr < 12 ? sunsetAmOrPm = " am" : sunsetAmOrPm = " pm";
+        if (sunsetMin < 10) { sunsetMin = "0" + sunsetMin };
+        let sunset;
+        if (sunsetHr < 10) {
+            sunset = "0" + sunsetHr + ":" + sunsetMin }
+        else {
+            sunset = sunsetHr + ":" + sunsetMin
+        }
         if (sunsetHr > 12) { sunsetHr -= 12 };
-        if (sunsetMin < 10){ sunsetMin = "0" + sunsetMin };
 
         res.render("home", {
             time: time,
