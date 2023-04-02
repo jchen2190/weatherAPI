@@ -30,6 +30,7 @@ async function getWeather(req, res) {
             longitude = city.data.results[0].longitude;
             cityName = city.data.results[0].name;
             cityState = city.data.results[0].admin1;
+            // `https://source.unsplash.com/random/?city,night`
         }
         let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time

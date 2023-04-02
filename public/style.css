@@ -22,11 +22,14 @@ input {
     display: flex;
     justify-content: space-between;
 }
-img {
-    width: 30px;
+h2 {
+    display: flex;
 }
 .weather-details {
     display: flex;
     justify-content: space-between;
     padding: 2px;
+}
+img {
+    width: 30px;
 }

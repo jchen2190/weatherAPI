@@ -12,7 +12,7 @@
         <span><%= currentTime + " " + amOrPm %></span>
         <h1>WeatherAPI</h1>
         <form autocomplete="off" action="/" method="GET">
-            <input id="userInput" type="text" name="search-city" placeholder="location">
+            <input id="userInput" type="text" name="search-city" placeholder="Enter city name">
         </form>
         <div class="container-temp">
             <h2>
@@ -21,19 +21,19 @@
             <h2>
             <% if (time < sunrise || time > sunset) { %>
                 <% if ( cloudCover < 20) { %>
-                    <img src="./images/night-clear.png" alt="clear night icon">Sunny
+                    <img src="./images/night-clear.png" alt="clear night icon"> Sunny
                 <% } else if ( cloudCover < 60) { %>
-                    <img src="./images/night-cloud.png" alt="cloudy-night icon">Partly Cloudy
+                    <img src="./images/night-cloud.png" alt="cloudy-night icon"> Partly Cloudy
                 <% } else { %>
-                    <img src="./images/night-cloud.png" alt="cloud icon">Cloudy
+                    <img src="./images/night-cloud.png" alt="cloud icon"> Cloudy
                 <% } %>
             <% } else { %>
                 <% if ( cloudCover < 20) { %>
-                    <img src="./images/sun.png" alt="sunny icon">Sunny
+                    <img src="./images/sun.png" alt="sunny icon"> Sunny
                 <% } else if ( cloudCover < 60) { %>
-                    <img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy
+                    <img src="./images/cloudy-day.png" alt="cloudy-day icon"> Partly Cloudy
                 <% } else { %>
-                    <img src="./images/cloud.png" alt="cloud icon">Cloudy
+                    <img src="./images/cloud.png" alt="cloud icon"> Cloudy
                 <% } %>
             <% } %>
             </h2>
