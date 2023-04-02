@@ -19,24 +19,30 @@ async function getWeather(req, res) {
     if (req.query["search-city"] != "" && query != undefined) {
         query = req.query["search-city"];
     }
+    // try {
+    //     city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
+    //     if (query != "") {
+    //         console.log(city.data.indexOf("results"));
+    //         latitude = city.data.results[0].latitude;
+    //         longitude = city.data.results[0].longitude;
+    //         cityName = city.data.results[0].name;
+    //     }
+    // } catch (error) {
+    //     let errorObj = {
+    //         message: "failure to find city",
+    //         payload: error
+    //     }
+    //     console.log(errorObj);
+    //     res.json(errorObj);
+    // }
+
     try {
         city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
-        if (query != "") {
-            console.log(city.data.indexOf("results"));
+        if (city.data.results != undefined) {
             latitude = city.data.results[0].latitude;
             longitude = city.data.results[0].longitude;
             cityName = city.data.results[0].name;
         }
-    } catch (error) {
-        let errorObj = {
-            message: "failure to find city",
-            payload: error
-        }
-        console.log(errorObj);
-        res.json(errorObj);
-    }
-
-    try {
         let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time
         let currentTemp = Math.round(weatherApp.data.hourly.temperature_2m[0]);
@@ -63,7 +69,7 @@ async function getWeather(req, res) {
         let sunsetMin = sunsetDate.getMinutes();
         let sunsetAmOrPm;
         sunsetHr < 12 ? sunsetAmOrPm = " am" : sunsetAmOrPm = " pm";
-        if (sunsetHr > 13) { sunsetHr -= 12 }
+        if (sunsetHr > 12) { sunsetHr -= 12 }
         let sunset = sunsetHr + ":" + sunsetMin + sunsetAmOrPm;
 
         res.render("home", {
@@ -79,12 +85,12 @@ async function getWeather(req, res) {
             humidity: humidity,
             dewPoint: dewPoint,
             visibility: visibility,
-            sunrise: sunrise,
-            sunset: sunset,
+            sunriseHr: sunriseHr, sunriseMin: sunriseMin, sunrise: sunrise,
+            sunsetHr: sunsetHr, sunsetMin: sunsetMin, sunsetAmOrPm: sunsetAmOrPm, sunset: sunset,
         })
     } catch (error) {
         let errorObj = {
-            message: "failure to find weather",
+            message: "failure to find city or weather",
             payload: error
         }
         console.log(errorObj);
