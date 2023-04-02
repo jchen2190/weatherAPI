@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <span><%= time %></span>
+        <span><%= currentTime + " " + amOrPm %></span>
         <h1>WeatherAPI</h1>
         <form autocomplete="off" action="/" method="GET">
             <input id="userInput" type="text" name="search-city" placeholder="location">
@@ -19,16 +19,32 @@
                 <%= temp + tempSymbol %>
             </h2>
             <h2>
-            <% if ( cloudCover < 20) { %>
-                <img src="./images/sun.png" alt="sunny icon">Sunny
-            <% } else if ( cloudCover < 60) { %>
-                <img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy
+            <% if (time < sunrise || time > sunset) { %>
+                <% if ( cloudCover < 20) { %>
+                    <img src="./images/night-clear.png" alt="clear night icon">Sunny
+                <% } else if ( cloudCover < 60) { %>
+                    <img src="./images/night-cloud.png" alt="cloudy-night icon">Partly Cloudy
+                <% } else { %>
+                    <img src="./images/night-cloud.png" alt="cloud icon">Cloudy
+                <% } %>
             <% } else { %>
-                <img src="./images/cloud.png" alt="cloud icon">Cloudy
+                <% if ( cloudCover < 20) { %>
+                    <img src="./images/sun.png" alt="sunny icon">Sunny
+                <% } else if ( cloudCover < 60) { %>
+                    <img src="./images/cloudy-day.png" alt="cloudy-day icon">Partly Cloudy
+                <% } else { %>
+                    <img src="./images/cloud.png" alt="cloud icon">Cloudy
+                <% } %>
             <% } %>
             </h2>
         </div>
-        <span><%= cityName %></span>
+        <span>
+            <% if (cityState == undefined) { %>
+                <%= cityName %>
+            <% } else { %>
+                <%= cityName + ", " + cityState %>
+            <% } %>
+        </span>
         <span><%= highTemp %>° / <%= lowTemp %>°</span>
         <br>
         <!-- <div class="weather-details">
@@ -46,17 +62,13 @@
             <span>Dew Point</span>
             <span><%= dewPoint %></span>
         </div>
-        <!-- <div class="weather-details">
-            <span>Pressure</span>
-
-        </div> -->
         <div class="weather-details">
             <span>Visibility</span>
             <span><%= visibility %></span>
         </div>
         <div class="weather-details">
             <span>Sunrise:</span>
-            <span><%= sunrise %></span>
+            <span><%= (sunriseHr + ":" + sunriseMin + sunriseAmOrPm) %></span>
         </div>
         <div class="weather-details">
             <span>Sunset:</span>
