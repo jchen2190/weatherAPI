@@ -18,7 +18,7 @@
             <h2>
                 <%= temp + tempSymbol %>
             </h2>
-            <h2>
+            <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
                 <% if ( cloudCover < 20) { %>
                     <img src="./images/night-clear.png" alt="clear night icon"> Sunny
@@ -38,7 +38,7 @@
             <% } %>
             </h2>
         </div>
-        <span>
+        <span class="weather-city">
             <% if (cityState == undefined) { %>
                 <%= cityName %>
             <% } else { %>

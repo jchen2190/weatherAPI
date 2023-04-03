@@ -25,6 +25,14 @@ input {
 h2 {
     display: flex;
 }
+.weather-condition {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 50%;
+}
+.weather-city {
+    font-weight: bold;
+}
 .weather-details {
     display: flex;
     justify-content: space-between;
@@ -32,4 +40,6 @@ h2 {
 }
 img {
     width: 30px;
+    height: 30px;
+    margin-right: 5px;
 }

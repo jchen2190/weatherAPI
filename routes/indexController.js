@@ -4,8 +4,8 @@ let latitude = "40.71";
 let longitude = "-74.01";
 let city = "";
 let query = "New York";
-let cityName = "New York City";
-let cityState = "New York"
+let cityName = "New York";
+let cityState = "New York";
 
 async function getWeather(req, res) {
     var date = new Date();
@@ -32,7 +32,7 @@ async function getWeather(req, res) {
             cityState = city.data.results[0].admin1;
             // `https://source.unsplash.com/random/?city,night`
         }
-        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
+        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherForecastHr = weatherApp.data.hourly.time
         let currentTemp = Math.round(weatherApp.data.hourly.temperature_2m[0]);
         let tempSymbol = weatherApp.data.hourly_units.apparent_temperature;
@@ -40,10 +40,14 @@ async function getWeather(req, res) {
         let highTemp = weatherApp.data.daily.temperature_2m_max[0];
         let lowTemp = weatherApp.data.daily.temperature_2m_min[0];
 
+        let precipitation = weatherApp.data.hourly.precipitation[0];
+        let rain = weatherApp.data.hourly.rain[0];
+        let showers = weatherApp.data.hourly.showers[0];
+        let snowfall = weatherApp.data.hourly.snowfall[0];
+
         let windSpeed = weatherApp.data.hourly.windspeed_10m[0] + " mph";
         let humidity = weatherApp.data.hourly.relativehumidity_2m[0] + "%";
         let dewPoint = weatherApp.data.hourly.dewpoint_2m[0] + "°";
-
         let visibility = Math.floor(weatherApp.data.hourly.visibility[0] / 5280);
         if (visibility > 10) { visibility = 10 };
         visibility += " mi";
@@ -55,11 +59,7 @@ async function getWeather(req, res) {
         sunriseHr < 12 ? sunriseAmOrPm = " am" : sunriseAmOrPm = " pm";
         if (sunriseMin < 10) { sunriseMin = "0" + sunriseMin };
         let sunrise;
-        if (sunriseHr < 10) {
-            sunrise = "0" + sunriseHr + ":" + sunriseMin;
-        } else {
-            sunrise = sunriseHr + ":" + sunriseMin
-        } 
+        sunrise = sunriseHr < 10 ? "0" + sunriseHr + ":" + sunriseMin : sunriseHr + ":" + sunriseMin;
         if (sunriseHr > 12) { sunriseHr -= 12 };
 
         let sunsetDate = new Date(weatherApp.data.daily.sunset[0] * 1000);
@@ -69,11 +69,7 @@ async function getWeather(req, res) {
         sunsetHr < 12 ? sunsetAmOrPm = " am" : sunsetAmOrPm = " pm";
         if (sunsetMin < 10) { sunsetMin = "0" + sunsetMin };
         let sunset;
-        if (sunsetHr < 10) {
-            sunset = "0" + sunsetHr + ":" + sunsetMin }
-        else {
-            sunset = sunsetHr + ":" + sunsetMin
-        }
+        sunset = sunsetHr < 10 ? "0" + sunsetHr + ":" + sunsetMin : sunsetHr + ":" + sunsetMin;
         if (sunsetHr > 12) { sunsetHr -= 12 };
 
         res.render("home", {
@@ -84,6 +80,7 @@ async function getWeather(req, res) {
             hours: weatherForecastHr,
             tempSymbol: tempSymbol,
             cloudCover: cloudCover,
+            precipitation: precipitation, rain: rain, showers: showers, snowfall: snowfall,
             cityName: cityName, cityState: cityState,
             highTemp: highTemp,
             lowTemp: lowTemp,
