@@ -24,6 +24,7 @@
             <h2>
                 <%= temp + tempSymbol %>
             </h2>
+            <!-- TODO: thunder + snow + rain conditions -->
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
                 <% if ( cloudCover < 20) { %>
@@ -44,6 +45,7 @@
             <% } %>
             </h2>
         </div>
+        <!-- TODO: Input hourly conditions -->
         <span class="weather-city">
             <% if (cityState == undefined) { %>
                 <%= cityName %>
