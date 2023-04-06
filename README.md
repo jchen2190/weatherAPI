@@ -1,4 +1,5 @@
 # WeatherAPI
+![screenshot](/public/screenshot.png)
 
 ## General Info
 
@@ -27,4 +28,5 @@ The port will be on <b>localhost:3000</b>. Type in the URL to access content.<br
 <br>
 
 ## Technologies
+Uses Javascript & NodeJS.
 The application uses express and axios and takes the API of cities from open-meteo at [Geocoding API](https://open-meteo.com/en/docs/geocoding-api) and takes the values of the cities to find the weather from open-meteo: [Weather Forecast API](https://open-meteo.com/en/docs#api_form).
