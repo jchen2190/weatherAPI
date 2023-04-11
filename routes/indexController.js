@@ -8,16 +8,17 @@ let cityName = "New York";
 let cityState = "New York";
 
 async function getWeather(req, res) {
-    var date = new Date();
-    var hr = date.getHours();
-    var min = date.getMinutes();
+    let date = new Date();
+    let hr = date.getHours();
+    let min = date.getMinutes();
     if (min < 10) { min = "0" + min }
-    var amOrPm = "";
-    var time;
+    let amOrPm = "";
+    let time;
     if (hr < 10) { time = "0" + hr + ":" + min} else { time = hr + ":" + min}
     hr < 12 ? amOrPm = "am" : amOrPm = "pm";
-    if (hr > 12) { hr -= 12 }
-    var currentTime = `${hr}:${min}`;
+    let hour = hr; // use hr as variable below
+    if (hour > 12) { hour -= 12 }
+    let currentTime = `${hour}:${min}`;
     if (req.query !== "") {
         query = req.query["search-city"];
     }
@@ -33,20 +34,20 @@ async function getWeather(req, res) {
         let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
         let weatherHr = weatherApp.data.hourly
         let weatherDaily = weatherApp.data.daily;
-        let currentTemp = Math.round(weatherHr.temperature_2m[0]);
-        let cloudCover = weatherHr.cloudcover[0];
+        let currentTemp = Math.round(weatherHr.temperature_2m[hr]);
+        let cloudCover = weatherHr.cloudcover[hr];
         let highTemp = weatherDaily.temperature_2m_max[0];
         let lowTemp = weatherDaily.temperature_2m_min[0];
 
-        let precipitation = weatherHr.precipitation[0];
-        let rain = weatherHr.rain[0];
-        let showers = weatherHr.showers[0];
-        let snowfall = weatherHr.snowfall[0];
+        let precipitation = weatherHr.precipitation[hr];
+        let rain = weatherHr.rain[hr];
+        let showers = weatherHr.showers[hr];
+        let snowfall = weatherHr.snowfall[hr];
 
-        let windSpeed = weatherHr.windspeed_10m[0] + " mph";
-        let humidity = weatherHr.relativehumidity_2m[0] + "%";
-        let dewPoint = weatherHr.dewpoint_2m[0] + "°";
-        let visibility = Math.floor(weatherHr.visibility[0] / 5280);
+        let windSpeed = weatherHr.windspeed_10m[hr] + " mph";
+        let humidity = weatherHr.relativehumidity_2m[hr] + "%";
+        let dewPoint = weatherHr.dewpoint_2m[hr] + "°";
+        let visibility = Math.floor(weatherHr.visibility[hr] / 5280);
         if (visibility > 10) { visibility = 10 };
         visibility += " mi";
 
