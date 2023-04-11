@@ -18,11 +18,10 @@ async function getWeather(req, res) {
     hr < 12 ? amOrPm = "am" : amOrPm = "pm";
     if (hr > 12) { hr -= 12 }
     var currentTime = `${hr}:${min}`;
-    
-    if (req.query["search-city"].length > 0 && query != undefined) {
+    if (req.query !== "") {
         query = req.query["search-city"];
     }
-
+    
     try {
         city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
         if (city.data.results) {

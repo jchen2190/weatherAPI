@@ -27,7 +27,11 @@
             <!-- TODO: thunder + snow + rain conditions -->
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
-                <% if ( cloudCover < 20) { %>
+                <% if ( rain >= 0.10 ) { %>
+                    <img src="./images/night-rain.png" alt="rain night icon"/> Rain
+                <% } else if ( snowfall >= 0.10 ) { %>
+                    <img src="./images/night-snow.png" alt="snow night icon"/> Snow
+                <% } else if ( cloudCover < 20) { %>
                     <img src="./images/night-clear.png" alt="clear night icon"> Clear
                 <% } else if ( cloudCover < 60) { %>
                     <img src="./images/night-cloud.png" alt="cloudy-night icon"> Partly Cloudy
@@ -35,7 +39,11 @@
                     <img src="./images/night-cloud.png" alt="cloud icon"> Cloudy
                 <% } %>
             <% } else { %>
-                <% if ( cloudCover < 20) { %>
+                <% if ( rain >= 0.10 ) { %>
+                    <img src="./images/rainy-day.png" alt="rain icon"/> Rain
+                <% } else if ( snowfall >= 0.10 ) { %>
+                    <img src="./images/snowing2.png" alt="snow icon"/> Snow
+                <% } else if ( cloudCover < 20) { %>
                     <img src="./images/sun.png" alt="sunny icon"> Sunny
                 <% } else if ( cloudCover < 60) { %>
                     <img src="./images/cloudy-day.png" alt="cloudy-day icon"> Partly Cloudy
@@ -45,7 +53,7 @@
             <% } %>
             </h2>
         </div>
-        <!-- TODO: Input hourly conditions -->
+
         <span class="weather-city">
             <% if (cityState == undefined) { %>
                 <%= cityName %>
@@ -93,8 +101,8 @@
                     <span ><%= hours %></span>
                     <span>Test</span>
                 </div>
-                <% } %>
-            </div> -->
+            <% } %>
+        </div> -->
             
         <h3 style="margin-bottom:2px"}>Daily Forecast</h3>
         <div class="weather-daily">
