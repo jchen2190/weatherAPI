@@ -19,14 +19,13 @@ async function getWeather(req, res) {
     if (hr > 12) { hr -= 12 }
     var currentTime = `${hr}:${min}`;
     
-    if (req.query["search-city"] != "" && query != undefined) {
+    if (req.query["search-city"].length > 0 && query != undefined) {
         query = req.query["search-city"];
     }
 
     try {
         city = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${query}&language=en&count=10&format=json`)
         if (city.data.results) {
-            console.log(city.data.results);
             latitude = city.data.results[0].latitude;
             longitude = city.data.results[0].longitude;
             cityName = city.data.results[0].name;
@@ -74,10 +73,12 @@ async function getWeather(req, res) {
 
         res.render("home", {
             time: time,
+            hr: hr,
+            amOrPm: amOrPm,
             currentTime: currentTime,
             amOrPm: amOrPm,
             temp: currentTemp,
-            hours: weatherForecastHr,
+            weatherForecastHr: weatherForecastHr,
             tempSymbol: tempSymbol,
             cloudCover: cloudCover,
             precipitation: precipitation, rain: rain, showers: showers, snowfall: snowfall,

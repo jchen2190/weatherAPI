@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    max-width: 280px;
+    max-width: 300px;
     display: flex;
     justify-content: center;
     margin: 20px auto;
@@ -10,10 +10,10 @@ body {
     background-color: white;
 }
 .container {
-    display:  flex;
-    flex-direction:  column;
+    display: flex;
+    flex-direction: column;
     align-items: left;
-
+    padding: 15px;
 }
 input {
     font-size: 18px;
@@ -39,6 +39,10 @@ h2 {
     display: flex;
     justify-content: space-between;
     padding: 2px;
+}
+.weather-hourly {
+    padding: 0 5px;
+    flex-direction: column;
 }
 img {
     width: 30px;

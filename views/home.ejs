@@ -82,6 +82,18 @@
             <span>Sunset:</span>
             <span><%= (sunsetHr + ":" + sunsetMin + sunsetAmOrPm) %></span>
         </div>
+
+        <h3>Hourly Forecast</h3>
+        <div >
+            <!-- <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %> -->
+            <% for (let i = 0; i < 5; i++) { %>
+                <% var weatherHours = new Date(weatherForecastHr[i]*1000) %>
+                <div class="weather-hourly">
+                    <span ><%= weatherHours %></span>
+                    <!-- <span>Test</span> -->
+                </div>
+            <% } %>
+        </div>
     </div>
 </div>
 </body>
