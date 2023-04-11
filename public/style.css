@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    max-width: 300px;
+    max-width: 330px;
     display: flex;
     justify-content: center;
     margin: 20px auto;
@@ -43,6 +43,24 @@ h2 {
 .weather-hourly {
     padding: 0 5px;
     flex-direction: column;
+}
+.weather-daily {
+    display: flex;
+    margin: auto;
+}
+.weather-daily div{
+    display: flex;
+    flex-direction: column;
+    font-size: .8rem;
+    padding: 0 3px;
+    text-align: center;
+}
+.weather-daily span {
+    padding: 5px 0;
+}
+.weather-daily span:nth-child(2) {
+    font-size: .9rem;
+    font-weight: bold;
 }
 img {
     width: 30px;

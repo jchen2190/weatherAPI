@@ -22,13 +22,13 @@
         </form>
         <div class="container-temp">
             <h2>
-                <%= temp + tempSymbol %>
+                <%= temp + "°F" %>
             </h2>
             <!-- TODO: thunder + snow + rain conditions -->
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
                 <% if ( cloudCover < 20) { %>
-                    <img src="./images/night-clear.png" alt="clear night icon"> Sunny
+                    <img src="./images/night-clear.png" alt="clear night icon"> Clear
                 <% } else if ( cloudCover < 60) { %>
                     <img src="./images/night-cloud.png" alt="cloudy-night icon"> Partly Cloudy
                 <% } else { %>
@@ -83,14 +83,29 @@
             <span><%= (sunsetHr + ":" + sunsetMin + sunsetAmOrPm) %></span>
         </div>
 
-        <h3>Hourly Forecast</h3>
+        <!-- <h3>Hourly Forecast</h3>
         <div >
-            <!-- <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %> -->
             <% for (let i = 0; i < 5; i++) { %>
-                <% var weatherHours = new Date(weatherForecastHr[i]*1000) %>
+                <% var weatherHours = new Date(weatherHr.time[i] * 1000) %>
+                <% var hours = weatherHours.toLocaleTimeString("en-US") %>
+                <% var minutes = weatherHours.getMinutes() %>
                 <div class="weather-hourly">
-                    <span ><%= weatherHours %></span>
-                    <!-- <span>Test</span> -->
+                    <span ><%= hours %></span>
+                    <span>Test</span>
+                </div>
+                <% } %>
+            </div> -->
+            
+        <h3>Daily Forecast</h3>
+        <div class="weather-daily">
+            <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %>
+            <% for (let i = 0; i < weekday.length; i++) { %>
+                <% let weatherDate = new Date(weatherDaily.time[i]*1000) %>
+                <% let weatherDay = weatherDate.getDay() %>
+                <div>
+                    <span> <b><%= weekday[weatherDay] %></b> </span>
+                    <span> <%= weatherDaily.temperature_2m_max[i] + "°" %> </span>
+                    <span> <%= weatherDaily.temperature_2m_min[i] + "°" %> </span>
                 </div>
             <% } %>
         </div>
