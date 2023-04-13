@@ -20,11 +20,11 @@
         <form autocomplete="off" action="/" method="GET">
             <input id="userInput" type="text" name="search-city" placeholder="Enter city name">
         </form>
-        <div class="container-temp">
-            <h2>
-                <%= temp + "°F" %>
-            </h2>
-            <!-- TODO: thunder + snow + rain conditions -->
+        <section class="temp-display">
+            <div class="temp-container">
+                <h2><%= temp + "°F" %></h2>
+                <%- include("./partials/weatherCondition") %>
+            </div>
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
                 <%- include("./partials/weatherConditionDay") %>
@@ -32,7 +32,7 @@
                 <%- include("./partials/weatherConditionNight") %>
             <% } %>
             </h2>
-        </div>
+        </section>
 
         <span class="weather-city">
             <% if (cityState == undefined) { %>
@@ -77,12 +77,12 @@
                 <% let date = new Date(weatherHr.time[hr + i] * 1000) %>
                 <% let hours = date.getHours() %>
                 <% let amOrPmm = hours >= 12 ? " pm" : " am" %>
-                <% hours === 0 ? hours += 12 : hours %>
-                <% hours > 12 ? hours -= 12 : hours %>
                 <% let minutes = date.getMinutes() %>
                 <% if (minutes < 10) { minutes = "0" + minutes } %>
                 <% let time; %>
                 <% if (hours < 10) { time = "0" + hours + ":" + minutes} else { time = hours + ":" + minutes} %>
+                <% hours > 12 ? hours -= 12 : hours %>
+                <% hours === 0 ? hours += 12 : hours %>
                 <div class="weather-hourly-container">
                     <span><%= hours + amOrPmm %></span>
                     <% if (time < sunrise || time > sunset) { %>
