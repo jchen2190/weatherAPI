@@ -1,0 +1,11 @@
+<% if ( rain >= 0.10 ) { %>
+    <img src="./images/rainy-day.png" alt="rain icon"/>
+<% } else if ( snowfall >= 0.10 ) { %>
+    <img src="./images/snowing2.png" alt="snow icon"/>
+<% } else if ( cloudCover < 20) { %>
+    <img src="./images/sun.png" alt="sunny icon">
+<% } else if ( cloudCover < 60) { %>
+    <img src="./images/cloudy-day.png" alt="cloudy-day icon">
+<% } else { %>
+    <img src="./images/cloud.png" alt="cloud icon">
+<% } %>

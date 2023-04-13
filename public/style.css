@@ -45,16 +45,29 @@ h2 {
     justify-content: space-between;
     padding: 2px;
 }
+h3 {
+    margin-bottom: 5px;
+}
 .weather-hourly {
     display: flex;
 }
 .weather-hourly-container {
     padding: 0 5px;
     flex-direction: column;
+    text-align: center;
+}
+.weather-hourly span:nth-child(1) {
+    font-size: .8rem;
+    text-transform: uppercase;
+}
+.weather-hourly img {
+    width: 30px;
+    height: 30px;
+    margin: 5px 0;
 }
 .weather-daily {
     display: flex;
-    margin: auto;
+    justify-content: space-between;
 }
 .weather-daily-container{
     display: flex;

@@ -1,0 +1,25 @@
+<% if (time < sunrise || time > sunset) { %>
+    <% if ( rain >= 0.10 ) { %>
+        Rain
+    <% } else if ( snowfall >= 0.10 ) { %>
+        Snow
+    <% } else if ( cloudCover < 20) { %>
+        Clear
+    <% } else if ( cloudCover < 60) { %>
+        Partly Cloudy
+    <% } else { %>
+        Cloudy
+    <% } %>
+<% } else { %>
+    <% if ( rain >= 0.10 ) { %>
+        Rain
+    <% } else if ( snowfall >= 0.10 ) { %>
+        Snow
+    <% } else if ( cloudCover < 20) { %>
+        Sunny
+    <% } else if ( cloudCover < 60) { %>
+        Partly Cloudy
+    <% } else { %>
+        Cloudy
+    <% } %>
+<% } %>

@@ -27,29 +27,9 @@
             <!-- TODO: thunder + snow + rain conditions -->
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
-                <% if ( rain >= 0.10 ) { %>
-                    <img src="./images/night-rain.png" alt="rain night icon"/> Rain
-                <% } else if ( snowfall >= 0.10 ) { %>
-                    <img src="./images/night-snow.png" alt="snow night icon"/> Snow
-                <% } else if ( cloudCover < 20) { %>
-                    <img src="./images/night-clear.png" alt="clear night icon"> Clear
-                <% } else if ( cloudCover < 60) { %>
-                    <img src="./images/night-cloud.png" alt="cloudy-night icon"> Partly Cloudy
-                <% } else { %>
-                    <img src="./images/night-cloud.png" alt="cloud icon"> Cloudy
-                <% } %>
+                <%- include("./partials/weatherConditionDay") %>
             <% } else { %>
-                <% if ( rain >= 0.10 ) { %>
-                    <img src="./images/rainy-day.png" alt="rain icon"/> Rain
-                <% } else if ( snowfall >= 0.10 ) { %>
-                    <img src="./images/snowing2.png" alt="snow icon"/> Snow
-                <% } else if ( cloudCover < 20) { %>
-                    <img src="./images/sun.png" alt="sunny icon"> Sunny
-                <% } else if ( cloudCover < 60) { %>
-                    <img src="./images/cloudy-day.png" alt="cloudy-day icon"> Partly Cloudy
-                <% } else { %>
-                    <img src="./images/cloud.png" alt="cloud icon"> Cloudy
-                <% } %>
+                <%- include("./partials/weatherConditionNight") %>
             <% } %>
             </h2>
         </div>
@@ -91,21 +71,31 @@
             <span><%= (sunsetHr + ":" + sunsetMin + sunsetAmOrPm) %></span>
         </div>
 
-        <h3 style="margin-bottom:2px">Hourly Forecast</h3>
+        <h3>Hourly Forecast</h3>
         <div class="weather-hourly">
             <% for (let i = 0; i < 5; i++) { %>
-                <% let weatherHours = new Date(weatherHr.time[hr + i] * 1000) %>
-                <% let hours = weatherHours.getHours() %>
+                <% let date = new Date(weatherHr.time[hr + i] * 1000) %>
+                <% let hours = date.getHours() %>
                 <% let amOrPmm = hours >= 12 ? " pm" : " am" %>
                 <% hours === 0 ? hours += 12 : hours %>
                 <% hours > 12 ? hours -= 12 : hours %>
+                <% let minutes = date.getMinutes() %>
+                <% if (minutes < 10) { minutes = "0" + minutes } %>
+                <% let time; %>
+                <% if (hours < 10) { time = "0" + hours + ":" + minutes} else { time = hours + ":" + minutes} %>
                 <div class="weather-hourly-container">
-                    <span ><%= hours + amOrPmm %></span>
+                    <span><%= hours + amOrPmm %></span>
+                    <% if (time < sunrise || time > sunset) { %>
+                        <%- include("./partials/weatherConditionDay") %>
+                    <% } else { %>
+                        <%- include("./partials/weatherConditionNight") %>
+                    <% } %>
+                    <span> <%= Math.round(weatherHr.temperature_2m[hr + i]) + "°" %></span>
                 </div>
             <% } %>
         </div>
             
-        <h3 style="margin-bottom:2px">Daily Forecast</h3>
+        <h3>Daily Forecast</h3>
         <div class="weather-daily">
             <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %>
             <% for (let i = 0; i < weekday.length; i++) { %>
@@ -113,8 +103,8 @@
                 <% let weatherDay = weatherDate.getDay() %>
                 <div class="weather-daily-container">
                     <span> <b><%= weekday[weatherDay] %></b> </span>
-                    <span> <%= weatherDaily.temperature_2m_max[i] + "°" %> </span>
-                    <span> <%= weatherDaily.temperature_2m_min[i] + "°" %> </span>
+                    <span> <%= Math.round(weatherDaily.temperature_2m_max[i]) + "°" %> </span>
+                    <span> <%= Math.round(weatherDaily.temperature_2m_min[i]) + "°" %> </span>
                 </div>
             <% } %>
         </div>
