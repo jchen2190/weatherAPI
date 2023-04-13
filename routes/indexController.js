@@ -8,17 +8,6 @@ let cityName = "New York";
 let cityState = "New York";
 
 async function getWeather(req, res) {
-    let date = new Date();
-    let hr = date.getHours();
-    let min = date.getMinutes();
-    if (min < 10) { min = "0" + min }
-    let amOrPm = "";
-    let time;
-    if (hr < 10) { time = "0" + hr + ":" + min} else { time = hr + ":" + min}
-    hr < 12 ? amOrPm = "am" : amOrPm = "pm";
-    let hour = hr; // use hr as variable below
-    if (hour > 12) { hour -= 12 }
-    let currentTime = `${hour}:${min}`;
     if (req.query !== "") {
         query = req.query["search-city"];
     }
@@ -31,7 +20,27 @@ async function getWeather(req, res) {
             cityName = city.data.results[0].name;
             cityState = city.data.results[0].admin1;
         }
-        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=America%2FNew_York`)
+        let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=auto`)
+
+        var now = new Date;
+        var utc_timestamp = Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
+        let date = new Date();
+        let hr = date.getHours();
+        let min = date.getMinutes();
+        if (min < 10) { min = "0" + min }
+        let amOrPm = "";
+        let time;
+        if (hr < 10) { time = "0" + hr + ":" + min} else { time = hr + ":" + min}
+        hr < 12 ? amOrPm = "am" : amOrPm = "pm";
+        let hour = hr; // use hr as variable below
+        let utcOffset = weatherApp.data.utc_offset_seconds / 60 / 60;
+        // hour += utcOffset + 2;
+        console.log(now.getUTCHours());
+        console.log(hour);
+        if (hour > 12) { hour -= 12 }
+        if (hour === 0) { hour += 12}
+        let currentTime = `${hour}:${min}`;
+
         let weatherHr = weatherApp.data.hourly
         let weatherDaily = weatherApp.data.daily;
         let currentTemp = Math.round(weatherHr.temperature_2m[hr]);

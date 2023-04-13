@@ -27,9 +27,9 @@
             </div>
             <h2 class="weather-condition">
             <% if (time < sunrise || time > sunset) { %>
-                <%- include("./partials/weatherConditionDay") %>
-            <% } else { %>
                 <%- include("./partials/weatherConditionNight") %>
+            <% } else { %>
+                <%- include("./partials/weatherConditionDay") %>
             <% } %>
             </h2>
         </section>
@@ -76,7 +76,7 @@
             <% for (let i = 0; i < 5; i++) { %>
                 <% let date = new Date(weatherHr.time[hr + i] * 1000) %>
                 <% let hours = date.getHours() %>
-                <% let amOrPmm = hours >= 12 ? " pm" : " am" %>
+                <% let amOrPm = hours >= 12 ? " pm" : " am" %>
                 <% let minutes = date.getMinutes() %>
                 <% if (minutes < 10) { minutes = "0" + minutes } %>
                 <% let time; %>
@@ -84,11 +84,11 @@
                 <% hours > 12 ? hours -= 12 : hours %>
                 <% hours === 0 ? hours += 12 : hours %>
                 <div class="weather-hourly-container">
-                    <span><%= hours + amOrPmm %></span>
+                    <span><%= hours + amOrPm %></span>
                     <% if (time < sunrise || time > sunset) { %>
-                        <%- include("./partials/weatherConditionDay") %>
-                    <% } else { %>
                         <%- include("./partials/weatherConditionNight") %>
+                    <% } else { %>
+                        <%- include("./partials/weatherConditionDay") %>
                     <% } %>
                     <span> <%= Math.round(weatherHr.temperature_2m[hr + i]) + "°" %></span>
                 </div>
@@ -99,10 +99,14 @@
         <div class="weather-daily">
             <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %>
             <% for (let i = 0; i < weekday.length; i++) { %>
-                <% let weatherDate = new Date(weatherDaily.time[i]*1000) %>
-                <% let weatherDay = weatherDate.getDay() %>
+                <% let date = new Date(weatherHr.time[i*24+13]*1000) %>
+                <% let weatherDay = date.getDay() %>
+                <% let hours = date.getHours() %>
+                <% hr = i*24+13 %>
+                
                 <div class="weather-daily-container">
                     <span> <b><%= weekday[weatherDay] %></b> </span>
+                    <%- include("./partials/weatherConditionDay") %>
                     <span> <%= Math.round(weatherDaily.temperature_2m_max[i]) + "°" %> </span>
                     <span> <%= Math.round(weatherDaily.temperature_2m_min[i]) + "°" %> </span>
                 </div>

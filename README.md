@@ -1,5 +1,5 @@
 # WeatherAPI
-![screenshot](/public/screenshot.png)
+![screenshot](/public/screenshot1.png)
 
 ## General Info
 
