@@ -91,26 +91,27 @@
             <span><%= (sunsetHr + ":" + sunsetMin + sunsetAmOrPm) %></span>
         </div>
 
-        <!-- <h3>Hourly Forecast</h3>
-        <div >
+        <h3 style="margin-bottom:2px">Hourly Forecast</h3>
+        <div class="weather-hourly">
             <% for (let i = 0; i < 5; i++) { %>
-                <% var weatherHours = new Date(weatherHr.time[i] * 1000) %>
-                <% var hours = weatherHours.toLocaleTimeString("en-US") %>
-                <% var minutes = weatherHours.getMinutes() %>
-                <div class="weather-hourly">
-                    <span ><%= hours %></span>
-                    <span>Test</span>
+                <% let weatherHours = new Date(weatherHr.time[hr + i] * 1000) %>
+                <% let hours = weatherHours.getHours() %>
+                <% let amOrPmm = hours >= 12 ? " pm" : " am" %>
+                <% hours === 0 ? hours += 12 : hours %>
+                <% hours > 12 ? hours -= 12 : hours %>
+                <div class="weather-hourly-container">
+                    <span ><%= hours + amOrPmm %></span>
                 </div>
             <% } %>
-        </div> -->
+        </div>
             
-        <h3 style="margin-bottom:2px"}>Daily Forecast</h3>
+        <h3 style="margin-bottom:2px">Daily Forecast</h3>
         <div class="weather-daily">
             <% weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat") %>
             <% for (let i = 0; i < weekday.length; i++) { %>
                 <% let weatherDate = new Date(weatherDaily.time[i]*1000) %>
                 <% let weatherDay = weatherDate.getDay() %>
-                <div>
+                <div class="weather-daily-container">
                     <span> <b><%= weekday[weatherDay] %></b> </span>
                     <span> <%= weatherDaily.temperature_2m_max[i] + "°" %> </span>
                     <span> <%= weatherDaily.temperature_2m_min[i] + "°" %> </span>
