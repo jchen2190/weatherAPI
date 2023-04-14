@@ -1,0 +1,25 @@
+<% if (time < sunrise || time > sunset) { %>
+    <% if ( rain >= 0.10 ) { %>
+        <h2>Rain</h2>
+    <% } else if ( snowfall >= 0.10 ) { %>
+        <h2>Snow</h2>
+    <% } else if ( cloudCover < 20) { %>
+        <h2>Clear</h2>
+    <% } else if ( cloudCover < 60) { %>
+        <h2>Partly Cloudy</h2>
+    <% } else { %>
+        <h2>Cloudy</h2>
+    <% } %>
+<% } else { %>
+    <% if ( rain >= 0.10 ) { %>
+        <h2>Rain</h2>
+    <% } else if ( snowfall >= 0.10 ) { %>
+        <h2>Snow</h2>
+    <% } else if ( cloudCover < 20) { %>
+        <h2>Sunny</h2>
+    <% } else if ( cloudCover < 60) { %>
+        <h2>Partly Cloudy</h2>
+    <% } else { %>
+        <h2>Cloudy</h2>
+    <% } %>
+<% } %>

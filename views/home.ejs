@@ -23,14 +23,10 @@
         <section class="temp-display">
             <div class="temp-container">
                 <h2><%= temp + "°F" %></h2>
-                <%- include("./partials/weatherCondition") %>
+                <%- include("./partials/weatherConditionText") %>
             </div>
-            <h2 class="weather-condition">
-            <% if (time < sunrise || time > sunset) { %>
-                <%- include("./partials/weatherConditionNight") %>
-            <% } else { %>
-                <%- include("./partials/weatherConditionDay") %>
-            <% } %>
+            <h2 class="weather-condition">          
+                <%- include("./partials/weatherCondition") %>
             </h2>
         </section>
 
@@ -85,7 +81,7 @@
                 <% if (hours === 0) { hours += 12} %>
                 
                 <div class="weather-hourly-container">
-                    <span><%= hours + amOrPm %></span>
+                    <span><b><%= hours + amOrPm %></b></span>
                     <% let rain = weatherHr.rain[hr + i] %>
                     <% let cloudCover = weatherHr.cloudcover[hr + i] %>
                     <% let snowfall = weatherHr.snowfall[hr + i] %>

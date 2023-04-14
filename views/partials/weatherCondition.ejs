@@ -1,25 +1,25 @@
 <% if (time < sunrise || time > sunset) { %>
     <% if ( rain >= 0.10 ) { %>
-        <h2>Rain</h2>
+        <img src="./images/night-rain.png" alt="rain night icon"/>
     <% } else if ( snowfall >= 0.10 ) { %>
-        <h2>Snow</h2>
+        <img src="./images/night-snow.png" alt="snow night icon"/>
     <% } else if ( cloudCover < 20) { %>
-        <h2>Clear</h2>
+        <img src="./images/night-clear.png" alt="clear night icon">
     <% } else if ( cloudCover < 60) { %>
-        <h2>Partly Cloudy</h2>
+        <img src="./images/night-cloud.png" alt="cloudy-night icon">
     <% } else { %>
-        <h2>Cloudy</h2>
+        <img src="./images/night-cloud.png" alt="cloud icon">
     <% } %>
 <% } else { %>
     <% if ( rain >= 0.10 ) { %>
-        <h2>Rain</h2>
+        <img src="./images/rainy-day.png" alt="rain icon"/>
     <% } else if ( snowfall >= 0.10 ) { %>
-        <h2>Snow</h2>
+        <img src="./images/snowing2.png" alt="snow icon"/>
     <% } else if ( cloudCover < 20) { %>
-        <h2>Sunny</h2>
+        <img src="./images/sun.png" alt="sunny icon">
     <% } else if ( cloudCover < 60) { %>
-        <h2>Partly Cloudy</h2>
+        <img src="./images/cloudy-day.png" alt="cloudy-day icon">
     <% } else { %>
-        <h2>Cloudy</h2>
+        <img src="./images/cloud.png" alt="cloud icon">
     <% } %>
 <% } %>
