@@ -23,20 +23,16 @@ async function getWeather(req, res) {
         let weatherApp = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime&timezone=auto`)
 
         var now = new Date;
-        var utc_timestamp = Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
         let date = new Date();
-        let hr = date.getHours();
-        let min = date.getMinutes();
+        let hr = date.getUTCHours();
+        let min = date.getUTCMinutes();
         if (min < 10) { min = "0" + min }
-        let amOrPm = "";
-        let time;
-        if (hr < 10) { time = "0" + hr + ":" + min} else { time = hr + ":" + min}
-        hr < 12 ? amOrPm = "am" : amOrPm = "pm";
-        let hour = hr; // use hr as variable below
         let utcOffset = weatherApp.data.utc_offset_seconds / 60 / 60;
-        // hour += utcOffset + 2;
-        console.log(now.getUTCHours());
-        console.log(hour);
+        hr += utcOffset;
+        let hour = hr; // use hr as variable below
+        if (hour >= 24) { hour -= 24 }
+        let time = hour < 10 ? "0" + hour + ":" + min : hour + ":" + min;
+        let amOrPm = hr < 12 || hr > 23 ? "am" : "pm";
         if (hour > 12) { hour -= 12 }
         if (hour === 0) { hour += 12}
         let currentTime = `${hour}:${min}`;
@@ -61,27 +57,28 @@ async function getWeather(req, res) {
         visibility += " mi";
 
         let sunriseDate = new Date(weatherDaily.sunrise[0] * 1000);
-        let sunriseHr = sunriseDate.getHours();
-        let sunriseMin = sunriseDate.getMinutes();
-        let sunriseAmOrPm;
-        sunriseHr < 12 ? sunriseAmOrPm = " am" : sunriseAmOrPm = " pm";
+        let sunriseHr = sunriseDate.getUTCHours();
+        sunriseHr += utcOffset;
+        if (sunriseHr >= 24) { sunriseHr -= 24 };
+        let sunriseMin = sunriseDate.getUTCMinutes();
         if (sunriseMin < 10) { sunriseMin = "0" + sunriseMin };
-        let sunrise;
-        sunrise = sunriseHr < 10 ? "0" + sunriseHr + ":" + sunriseMin : sunriseHr + ":" + sunriseMin;
+        let sunrise = sunriseHr < 10 ? "0" + sunriseHr + ":" + sunriseMin : sunriseHr + ":" + sunriseMin;
+        let sunriseAmOrPm = sunriseHr < 12 || sunriseHr > 23 ? " am" : " pm";
         if (sunriseHr > 12) { sunriseHr -= 12 };
-
+ 
         let sunsetDate = new Date(weatherDaily.sunset[0] * 1000);
-        let sunsetHr = sunsetDate.getHours();
-        let sunsetMin = sunsetDate.getMinutes();
-        let sunsetAmOrPm;
-        sunsetHr < 12 ? sunsetAmOrPm = " am" : sunsetAmOrPm = " pm";
+        let sunsetHr = sunsetDate.getUTCHours();
+        sunsetHr += utcOffset;
+        if (sunsetHr < 0) { sunsetHr += 24 }
+        if (sunsetHr >= 24) { sunsetHr -= 24 };
+        let sunsetMin = sunsetDate.getUTCMinutes();
         if (sunsetMin < 10) { sunsetMin = "0" + sunsetMin };
-        let sunset;
-        sunset = sunsetHr < 10 ? "0" + sunsetHr + ":" + sunsetMin : sunsetHr + ":" + sunsetMin;
+        let sunset = sunsetHr < 10 ? "0" + sunsetHr + ":" + sunsetMin : sunsetHr + ":" + sunsetMin;
+        let sunsetAmOrPm = sunsetHr < 12 || sunsetHr > 23 ? " am" : " pm";
         if (sunsetHr > 12) { sunsetHr -= 12 };
 
         res.render("home", {
-            time: time, hr: hr, currentTime: currentTime, amOrPm: amOrPm,
+            time: time, hr: hr, currentTime: currentTime, amOrPm: amOrPm, utcOffset: utcOffset,
             temp: currentTemp,
             weatherHr: weatherHr, weatherDaily: weatherDaily,
             cloudCover: cloudCover,
@@ -89,7 +86,7 @@ async function getWeather(req, res) {
             cityName: cityName, cityState: cityState,
             highTemp: highTemp, lowTemp: lowTemp,
             windSpeed: windSpeed, humidity: humidity, dewPoint: dewPoint, visibility: visibility,
-            sunriseHr: sunriseHr, sunriseMin: sunriseMin, sunriseAmOrPm: sunriseAmOrPm, sunrise: sunrise, 
+            sunriseHr: sunriseHr, sunriseMin: sunriseMin, sunriseAmOrPm: sunriseAmOrPm, sunrise: sunrise,
             sunsetHr: sunsetHr, sunsetMin: sunsetMin, sunsetAmOrPm: sunsetAmOrPm, sunset: sunset,
         })
     } catch (error) {

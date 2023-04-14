@@ -75,20 +75,44 @@
         <div class="weather-hourly">
             <% for (let i = 0; i < 5; i++) { %>
                 <% let date = new Date(weatherHr.time[hr + i] * 1000) %>
-                <% let hours = date.getHours() %>
-                <% let amOrPm = hours >= 12 ? " pm" : " am" %>
-                <% let minutes = date.getMinutes() %>
-                <% if (minutes < 10) { minutes = "0" + minutes } %>
-                <% let time; %>
-                <% if (hours < 10) { time = "0" + hours + ":" + minutes} else { time = hours + ":" + minutes} %>
-                <% hours > 12 ? hours -= 12 : hours %>
-                <% hours === 0 ? hours += 12 : hours %>
+                <% let hours = date.getUTCHours() %>
+                <% hours += utcOffset %>
+                <% if (hours < 0) { hours += 24 } %>
+                <% if (hours >= 24) { hours -= 24 } %>
+                <% let time = hours < 10 ? "0" + hours + ":00" : hours + ":00" %>
+                <% let amOrPm = hours < 12 || hours > 23 ? " am" : " pm" %>
+                <% if (hours > 12) { hours -= 12} %>
+                <% if (hours === 0) { hours += 12} %>
+                
                 <div class="weather-hourly-container">
                     <span><%= hours + amOrPm %></span>
+                    <% let rain = weatherHr.rain[hr + i] %>
+                    <% let cloudCover = weatherHr.cloudcover[hr + i] %>
+                    <% let snowfall = weatherHr.snowfall[hr + i] %>
                     <% if (time < sunrise || time > sunset) { %>
-                        <%- include("./partials/weatherConditionNight") %>
+                        <% if ( rain >= 0.10 ) { %>
+                            <img src="./images/night-rain.png" alt="rain night icon"/>
+                        <% } else if ( snowfall >= 0.10 ) { %>
+                            <img src="./images/night-snow.png" alt="snow night icon"/>
+                        <% } else if ( cloudCover < 20) { %>
+                            <img src="./images/night-clear.png" alt="clear night icon">
+                        <% } else if ( cloudCover < 60) { %>
+                            <img src="./images/night-cloud.png" alt="cloudy-night icon">
+                        <% } else { %>
+                            <img src="./images/night-cloud.png" alt="cloud icon">
+                        <% } %>
                     <% } else { %>
-                        <%- include("./partials/weatherConditionDay") %>
+                        <% if ( rain >= 0.10 ) { %>
+                            <img src="./images/rainy-day.png" alt="rain icon"/>
+                        <% } else if ( snowfall >= 0.10 ) { %>
+                            <img src="./images/snowing2.png" alt="snow icon"/>
+                        <% } else if ( cloudCover < 20) { %>
+                            <img src="./images/sun.png" alt="sunny icon">
+                        <% } else if ( cloudCover < 60) { %>
+                            <img src="./images/cloudy-day.png" alt="cloudy-day icon">
+                        <% } else { %>
+                            <img src="./images/cloud.png" alt="cloud icon">
+                        <% } %>
                     <% } %>
                     <span> <%= Math.round(weatherHr.temperature_2m[hr + i]) + "°" %></span>
                 </div>
@@ -103,10 +127,22 @@
                 <% let weatherDay = date.getDay() %>
                 <% let hours = date.getHours() %>
                 <% hr = i*24+13 %>
-                
                 <div class="weather-daily-container">
                     <span> <b><%= weekday[weatherDay] %></b> </span>
-                    <%- include("./partials/weatherConditionDay") %>
+                    <% let rain = weatherHr.rain[hr] %>
+                    <% let cloudCover = weatherHr.cloudcover[hr] %>
+                    <% let snowfall = weatherHr.snowfall[hr] %>
+                    <% if ( rain >= 0.10 ) { %>
+                        <img src="./images/rainy-day.png" alt="rain icon"/>
+                    <% } else if ( snowfall >= 0.10 ) { %>
+                        <img src="./images/snowing2.png" alt="snow icon"/>
+                    <% } else if ( cloudCover < 20) { %>
+                        <img src="./images/sun.png" alt="sunny icon">
+                    <% } else if ( cloudCover < 60) { %>
+                        <img src="./images/cloudy-day.png" alt="cloudy-day icon">
+                    <% } else { %>
+                        <img src="./images/cloud.png" alt="cloud icon">
+                    <% } %>
                     <span> <%= Math.round(weatherDaily.temperature_2m_max[i]) + "°" %> </span>
                     <span> <%= Math.round(weatherDaily.temperature_2m_min[i]) + "°" %> </span>
                 </div>
