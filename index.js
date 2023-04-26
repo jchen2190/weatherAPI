@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
 const logger = require("morgan");
 const path = require("path");
 
@@ -14,7 +15,7 @@ app.use(logger("dev"));
 const weatherRouter = require("./routes/indexRouter");
 app.use("/", weatherRouter);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}...`);
 })
