@@ -27,7 +27,7 @@ async function getWeather(req, res) {
         let hr = date.getUTCHours();
         let min = date.getUTCMinutes();
         if (min < 10) { min = "0" + min }
-        let utcOffset = weatherApp.data.utc_offset_seconds / 60 / 60;
+        let utcOffset = Math.round(weatherApp.data.utc_offset_seconds / 60 / 60);
         hr += utcOffset;
         let hour = hr; // use hr as variable below
         if (hour >= 24) { hour -= 24 }

@@ -1,4 +1,4 @@
-# WeatherAPI
+# WeatherApp
 ![screenshot](/public/screenshot2.png)
 
 ## General Info
